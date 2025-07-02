@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "target": "esnext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Bundled projects */
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+
+    /* Path Aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
