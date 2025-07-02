@@ -5,6 +5,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
 
     /* Strictness */
     "strict": true,
