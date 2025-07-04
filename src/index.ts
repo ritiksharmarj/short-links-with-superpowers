@@ -1,16 +1,23 @@
 import express from "express";
+import shortenRouter from "./routes/shorten";
 
 const app = express();
 
-app.get("/", (_, res) => {
-  res.send("hello India 🇮🇳");
-});
+// CORS
+// RATE LIMITING
 
-app.get("/:shortCode", (req, res) => {
-  const { shortCode } = req.params;
+app.use(express.json());
 
-  res.status(200).send(shortCode);
-});
+// ROUTES
+app.use("/api/shorten", shortenRouter);
+
+// // UNHANDLED ROUTES
+// app.all("*", (req, res) => {
+//   res.status(404).json({
+//     status: "error",
+//     message: `Route ${req.originalUrl} not found`,
+//   });
+// });
 
 // Create a server on 127.0.0.1:8000
 const port = 8000;
