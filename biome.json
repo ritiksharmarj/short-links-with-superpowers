@@ -35,6 +35,9 @@
       "suspicious": {
         "noExplicitAny": "warn",
         "noArrayIndexKey": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   },
