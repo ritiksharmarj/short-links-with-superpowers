@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import type { Request, Response } from "express";
 import { nanoid } from "nanoid";
 import z from "zod";
@@ -10,7 +11,6 @@ const createShortenSchema = z.object({
 });
 
 export async function createShorten(req: Request, res: Response) {
-  // validate body
   const validatedData = createShortenSchema.parse(req.body);
   const { url, shortCode } = validatedData;
 
@@ -25,6 +25,28 @@ export async function createShorten(req: Request, res: Response) {
     .returning();
 
   res.status(201).json({
+    status: "success",
+    data: result,
+  });
+}
+
+const getOriginalUrlSchema = z.object({
+  shortCode: z
+    .string()
+    .min(1, "Short code cannot be empty")
+    .regex(/^[a-zA-Z0-9_-]+$/, "Short code contains invalid characters"),
+});
+
+export async function getOriginalUrl(req: Request, res: Response) {
+  const validatedParams = getOriginalUrlSchema.parse(req.params);
+  const { shortCode } = validatedParams;
+
+  const [result] = await db
+    .select()
+    .from(shorten)
+    .where(eq(shorten.shortCode, shortCode));
+
+  res.status(200).json({
     status: "success",
     data: result,
   });
