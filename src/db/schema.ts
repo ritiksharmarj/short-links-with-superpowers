@@ -4,8 +4,11 @@ export const shorten = pgTable("shorten", {
   id: serial("id").primaryKey(),
   url: text("url").notNull(),
   shortCode: text("short_code").notNull().unique(),
-  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
 
 // "id": "1",
