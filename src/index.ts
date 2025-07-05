@@ -17,7 +17,7 @@ app.use(express.json());
 // ROUTES
 app.use("/api/shorten", shortenRouter);
 
-// // UNHANDLED ROUTES
+// UNHANDLED ROUTES
 app.use((req, _res, next) => {
   next(new AppError(`Route ${req.originalUrl} not found`, 404));
 });
