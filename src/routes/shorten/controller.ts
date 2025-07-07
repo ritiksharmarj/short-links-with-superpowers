@@ -13,7 +13,7 @@ const createShortenSchema = z.object({
 });
 
 export const createShortUrl = catchAsync(
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const validatedData = createShortenSchema.parse(req.body);
     const { url, shortCode } = validatedData;
 
@@ -27,9 +27,19 @@ export const createShortUrl = catchAsync(
       })
       .returning();
 
+    if (!result) {
+      return next(new AppError("Failed to create short URL", 400));
+    }
+
     res.status(201).json({
       status: "success",
-      data: result,
+      data: {
+        id: result.id,
+        url: result.url,
+        shortCode: result.shortCode,
+        createdAt: result.createdAt,
+        updatedAt: result.updatedAt,
+      },
     });
   },
 );
@@ -63,7 +73,13 @@ export const getOriginalUrl = catchAsync(
 
     res.status(200).json({
       status: "success",
-      data: result,
+      data: {
+        id: result.id,
+        url: result.url,
+        shortCode: result.shortCode,
+        createdAt: result.createdAt,
+        updatedAt: result.updatedAt,
+      },
     });
   },
 );
@@ -97,9 +113,19 @@ export const updateShortUrl = catchAsync(
       .where(eq(shorten.shortCode, shortCode))
       .returning();
 
+    if (!result) {
+      return next(new AppError("Failed to update short URL", 400));
+    }
+
     res.status(200).json({
       status: "success",
-      data: result,
+      data: {
+        id: result.id,
+        url: result.url,
+        shortCode: result.shortCode,
+        createdAt: result.createdAt,
+        updatedAt: result.updatedAt,
+      },
     });
   },
 );
