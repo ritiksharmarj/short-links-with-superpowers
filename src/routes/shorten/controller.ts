@@ -17,8 +17,6 @@ export const createShortUrl = catchAsync(
     const validatedData = createShortenSchema.parse(req.body);
     const { url, shortCode } = validatedData;
 
-    console.log("success");
-
     const updatedShortCode = shortCode ?? nanoid(10);
 
     const [result] = await db
@@ -28,8 +26,6 @@ export const createShortUrl = catchAsync(
         shortCode: updatedShortCode,
       })
       .returning();
-
-    console.log(result);
 
     if (!result) {
       return next(new AppError("Failed to create short URL", 400));

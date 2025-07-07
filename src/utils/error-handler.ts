@@ -35,10 +35,6 @@ export function globalErrorHandler(
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
-  const error = Object.assign(err);
-
-  console.log(error);
-
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, req, res);
   }
