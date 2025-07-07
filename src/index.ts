@@ -1,9 +1,11 @@
 import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import shortenRouter from "./routes/shorten";
 import AppError from "./utils/app-error";
 import { globalErrorHandler } from "./utils/error-handler";
 
+dotenv.config({ path: "/.env" });
 const app = express();
 
 // CORS
