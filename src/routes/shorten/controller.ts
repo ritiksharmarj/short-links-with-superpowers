@@ -55,6 +55,12 @@ export const getOriginalUrl = catchAsync(
       return next(new AppError("Short code not found", 404));
     }
 
+    // Increment access count
+    await db
+      .update(shorten)
+      .set({ accessCount: result.accessCount + 1 })
+      .where(eq(shorten.shortCode, shortCode));
+
     res.status(200).json({
       status: "success",
       data: result,
@@ -90,6 +96,50 @@ export const updateShortUrl = catchAsync(
       .set({ url })
       .where(eq(shorten.shortCode, shortCode))
       .returning();
+
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  },
+);
+
+export const deleteShortUrl = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const validatedParams = getOriginalUrlSchema.parse(req.params);
+    const { shortCode } = validatedParams;
+
+    const [result] = await db
+      .select()
+      .from(shorten)
+      .where(eq(shorten.shortCode, shortCode));
+
+    if (!result) {
+      return next(new AppError("Short code not found", 404));
+    }
+
+    await db.delete(shorten).where(eq(shorten.shortCode, shortCode));
+
+    res.status(204).json({
+      status: "success",
+      message: "Short URL was successfully deleted.",
+    });
+  },
+);
+
+export const getShortUrlStats = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const validatedParams = getOriginalUrlSchema.parse(req.params);
+    const { shortCode } = validatedParams;
+
+    const [result] = await db
+      .select()
+      .from(shorten)
+      .where(eq(shorten.shortCode, shortCode));
+
+    if (!result) {
+      return next(new AppError("Short code not found", 404));
+    }
 
     res.status(200).json({
       status: "success",
