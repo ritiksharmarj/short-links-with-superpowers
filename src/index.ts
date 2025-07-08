@@ -9,7 +9,7 @@ import { globalErrorHandler } from "./utils/error-handler";
 dotenv.config({ path: "/.env" });
 const app = express();
 
-app.enable("trust proxy");
+app.set("trust proxy", 1);
 
 // CORS
 app.use(cors());
