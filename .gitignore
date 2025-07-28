@@ -2,3 +2,5 @@
 /dist
 .env
 /db-data
+/redis-data
+/redisinsight-data
