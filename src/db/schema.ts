@@ -12,6 +12,8 @@ export const shorten = pgTable("shorten", {
     .$onUpdate(() => new Date()),
 });
 
+export type Shorten = typeof shorten.$inferSelect;
+
 // "id": "1",
 // "url": "https://www.example.com/some/long/url",
 // "shortCode": "abc123",
